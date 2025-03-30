@@ -1,0 +1,32 @@
+[
+  {
+    "id": "A",
+    "description": "Kickoff",
+    "duration": 5,
+    "predecessorIds": []
+  },
+  {
+    "id": "B",
+    "description": "Analyse",
+    "duration": 10,
+    "predecessorIds": ["A"]
+  },
+  {
+    "id": "C",
+    "description": "Design",
+    "duration": 8,
+    "predecessorIds": ["A"]
+  },
+  {
+    "id": "D",
+    "description": "Entwicklung",
+    "duration": 12,
+    "predecessorIds": ["B", "C"]
+  },
+  {
+    "id": "E",
+    "description": "Testen",
+    "duration": 6,
+    "predecessorIds": ["D"]
+  }
+]

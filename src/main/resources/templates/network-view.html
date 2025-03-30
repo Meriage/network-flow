@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Netzplan</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            padding: 10px;
+        }
+        #diagram-container {
+        width: 95%;
+            margin: 0 auto 20px auto;
+            border: 1px solid #ccc;
+            padding: 10px;
+            min-height: 400px;
+        }
+        #table-container {
+            width: 95%;
+            margin: 0 auto; /*= Center */
+            max-height: 50vh;
+            overflow-y: auto; /*= Adds scroll if table too tall */
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 6px;
+            text-align: left;
+            font-size: 0.9em;
+        }
+        th {
+            background-color: #f2f2f2;
+            position: sticky; /*= Keeps headers visible */
+            top: 0;
+        }
+        tr.critical {
+            background-color: #ffdddd;
+            font-weight: bold;
+        }
+        .error-message {
+            color: red;
+            font-weight: bold;
+            padding: 10px;
+            border: 1px solid red;
+            background-color: #ffeeee;
+            margin-bottom: 20px;
+            width: 100%; /*= Spans full width if error occurs */
+        }
+        .mermaid svg {
+            max-width: 100%; /*= Diagram scales */
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+
+<div th:if="${error}" class="error-message">
+    <h1>Fehler</h1>
+    <p th:text="${error}"></p>
+</div>
+
+<div th:if="${error == null and tasks != null and not #lists.isEmpty(tasks)}" style="display: flex; flex-direction: column; width: 100%; align-items: center;">
+
+    <div id="diagram-container">
+        <h2>Netzplan</h2>
+        <!-- Mermaid Diagram Div -->
+        <!-- Use th:utext to prevent HTML escaping of the generated syntax -->
+        <div class="mermaid" th:utext="${mermaidSyntax}">
+            <!-- Mermaid syntax will be rendered here by mermaid.js -->
+        </div>
+    </div>
+
+    <div id="table-container">
+        <h2>Tabellenansicht</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Beschreibung</th>
+                    <th>Dauer</th>
+                    <th>Vorgänger</th>
+                    <th>FAZ</th>
+                    <th>FEZ</th>
+                    <th>SAZ</th>
+                    <th>SEZ</th>
+                    <th>GP</th>
+                    <th>FP</th>
+                    <th>Kritisch?</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="task : ${tasks}" th:classappend="${task.critical} ? 'critical' : ''">
+                    <td th:text="${task.id}"></td>
+                    <td th:text="${task.description}"></td>
+                    <td th:text="${task.duration}"></td>
+                    <td th:text="${task.predecessorIds != null ? #strings.listJoin(task.predecessorIds, ', ') : ''}"></td>
+                    <td th:text="${task.earliestStartDate}"></td>
+                    <td th:text="${task.earliestFinishDate}"></td>
+                    <td th:text="${task.latestStartDate}"></td>
+                    <td th:text="${task.latestFinishDate}"></td>
+                    <td th:text="${task.totalFloat}"></td>
+                    <td th:text="${task.freeFloat}"></td>
+                    <td th:text="${task.critical ? 'Ja' : 'Nein'}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div th:if="${(tasks == null or #lists.isEmpty(tasks)) and error == null}">
+    <h1>Netzplan</h1>
+    <p>Keine Daten gefunden oder geladen.</p>
+</div>
+
+<!-- Includes Mermaid JS Library (using CDN, probably better to download and include locally) -->
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+
+<!-- Initializes Mermaid -->
+<script>
+    // Ensures Mermaid initializes after the page content is loaded
+    // *especially* the div with the syntax
+    document.addEventListener('DOMContentLoaded', function () {
+        try {
+            mermaid.initialize({ startOnLoad: true });
+            console.log("Mermaid initialized.");
+        } catch (e) {
+            console.error("Error initializing Mermaid: ", e);
+        }
+    });
+</script>
+</body>
+</html>
