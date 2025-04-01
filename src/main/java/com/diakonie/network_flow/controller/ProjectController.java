@@ -131,8 +131,8 @@ public class ProjectController {
                      // (Checking TF helps distinguish truly critical path segments)
                     boolean isCriticalLink = predecessor.isCritical() && task.isCritical() && predecessor.getTotalFloat() == 0 && task.getTotalFloat() == 0;
 
-                    // Defines link: Predecessor -->|Duration Label| Successor
-                    links.append("    ").append(predecessor.getId()).append(" -->|").append(predecessor.getDuration()).append("| ").append(task.getId()).append(";\n");
+                    // Defines link: Predecessor --> Successor (without duration label)
+                    links.append("    ").append(predecessor.getId()).append(" --> ").append(task.getId()).append(";\n");
 
                     if (isCriticalLink) {
                         // Applies specific CSS styling to critical links by their definition order (index)
