@@ -145,23 +145,19 @@ public class CpmService {
         List<Task> successors = successorMap.getOrDefault(current.getId(), Collections.emptyList());
 
         for (Task successor : successors) {
-            // Updates successors EST: max(current EST, predecessors EFT)
-            int potentialEst = Math.max(successor.getEarliestStartDate(), current.getEarliestFinishDate());
+            int potentialEst = current.getEarliestFinishDate();
 
             if (potentialEst > successor.getEarliestStartDate()) {
                 successor.setEarliestStartDate(potentialEst);
-                successor.setEarliestFinishDate(potentialEst + successor.getDuration());
-                log.debug("  Updated successor {} EST to {} (from predecessor {}), new EFT = {}", successor.getId(), potentialEst, current.getId(), successor.getEarliestFinishDate());
             }
 
             // Decreases in-degree of the successor
             int newInDegree = inDegree.get(successor.getId()) - 1;
             inDegree.put(successor.getId(), newInDegree);
 
-            // If in-degree becomes 0, adds successor to the queue
             if (newInDegree == 0) {
+                successor.setEarliestFinishDate(successor.getEarliestStartDate() + successor.getDuration());
                 queue.add(successor);
-                log.debug("  Added successor {} to forward pass queue.", successor.getId());
             }
         }
     }
