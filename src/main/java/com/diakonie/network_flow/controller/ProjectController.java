@@ -107,7 +107,7 @@ public class ProjectController {
 
             if (task.isCritical()) {
                 // Applies specific CSS styling to critical nodes
-                sb.append("    style ").append(task.getId()).append(" fill:#f9f,stroke:#333,stroke-width:2px,color:#fff;\n");
+                sb.append("    style ").append(task.getId()).append(" fill:#FFCCCB,stroke:#333,stroke-width:2px,color:#000;\n");
             }
         }
         sb.append("\n");
