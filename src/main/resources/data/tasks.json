@@ -1,32 +1,92 @@
 [
-  {
-    "id": "A",
-    "description": "Kickoff",
-    "duration": 5,
-    "predecessorIds": []
-  },
-  {
-    "id": "B",
-    "description": "Analyse",
-    "duration": 10,
-    "predecessorIds": ["A"]
-  },
-  {
-    "id": "C",
-    "description": "Design",
-    "duration": 8,
-    "predecessorIds": ["A"]
-  },
-  {
-    "id": "D",
-    "description": "Entwicklung",
-    "duration": 12,
-    "predecessorIds": ["B", "C"]
-  },
-  {
-    "id": "E",
-    "description": "Testen",
-    "duration": 6,
-    "predecessorIds": ["D"]
-  }
+    {
+        "id": "A",
+        "description": "Projektstart",
+        "duration": 0,
+        "predecessorIds": []
+    },
+    {
+        "id": "B",
+        "description": "Anforderungsanalyse",
+        "duration": 5,
+        "predecessorIds": ["A"]
+    },
+    {
+        "id": "C",
+        "description": "Design",
+        "duration": 3,
+        "predecessorIds": ["B"]
+    },
+    {
+        "id": "D",
+        "description": "Implementierung",
+        "duration": 8,
+        "predecessorIds": ["C"]
+    },
+    {
+        "id": "E",
+        "description": "Test",
+        "duration": 4,
+        "predecessorIds": ["D"]
+    },
+    {
+        "id": "G",
+        "description": "Dokumentation",
+        "duration": 6,
+        "predecessorIds": ["B"]
+    },
+    {
+        "id": "H",
+        "description": "Benutzerschulung",
+        "duration": 3,
+        "predecessorIds": ["G", "E"]
+    },
+    {
+        "id": "I",
+        "description": "Qualitätssicherung",
+        "duration": 4,
+        "predecessorIds": ["D"]
+    },
+    {
+        "id": "J",
+        "description": "Performance-Test",
+        "duration": 3,
+        "predecessorIds": ["I"]
+    },
+    {
+        "id": "K",
+        "description": "Sicherheitsaudit",
+        "duration": 5,
+        "predecessorIds": ["D"]
+    },
+    {
+        "id": "L",
+        "description": "Marketing",
+        "duration": 4,
+        "predecessorIds": ["B"]
+    },
+    {
+        "id": "M",
+        "description": "Vertrieb",
+        "duration": 3,
+        "predecessorIds": ["L"]
+    },
+    {
+        "id": "N",
+        "description": "Integration",
+        "duration": 5,
+        "predecessorIds": ["J", "K"]
+    },
+    {
+        "id": "O",
+        "description": "Deployment",
+        "duration": 2,
+        "predecessorIds": ["N", "H"]
+    },
+    {
+        "id": "P",
+        "description": "Projektabschluss",
+        "duration": 0,
+        "predecessorIds": ["O", "M", "E"]
+    }
 ]
